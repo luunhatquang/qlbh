@@ -1,0 +1,24 @@
+# Không push thư mục node_modules
+node_modules/
+
+# Không push file môi trường
+.env
+
+# Thư mục log
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache và build
+dist/
+build/
+tmp/
+.cache/
+
+# Hệ thống macOS tạo ra
+.DS_Store
+
+# VSCode settings
+.vscode/
