@@ -19,9 +19,16 @@ module.exports.index = async(req, res) => {
     }];
 
     let find = {
-        deleted: false
+        deleted: false,
     }
 
+    let keyword = "";
+    if(req.query.keyword) {
+        keyword = req.query.keyword;
+        const regex = new RegExp(keyword, "i");
+        find.title = regex;
+    }
+    console.log(keyword);
     if(req.query.status) {
         const index = filterStatus.findIndex(item => item.status == req.query.status);
         find.status = req.query.status
@@ -36,7 +43,8 @@ module.exports.index = async(req, res) => {
     res.render("admin/pages/products/index",{
     pageTitle: "Quản lý sản phẩm",
     products: products, 
-    filterStatus: filterStatus 
+    filterStatus: filterStatus,
+    keyword: keyword
 });
 }
     
