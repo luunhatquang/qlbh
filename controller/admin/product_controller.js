@@ -18,6 +18,10 @@ module.exports.index = async(req, res) => {
         class: ""
     }];
 
+    let find = {
+        deleted: false
+    }
+
     if(req.query.status) {
         const index = filterStatus.findIndex(item => item.status == req.query.status);
         find.status = req.query.status
@@ -26,9 +30,6 @@ module.exports.index = async(req, res) => {
     else {
         const index = filterStatus.findIndex(item => item.status == "");
         filterStatus[index].class = "active";
-    }
-    let find = {
-        deleted: false
     }
     const products = await Product.find(find);
 
