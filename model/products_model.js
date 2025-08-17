@@ -11,6 +11,6 @@ const productSchema = new mongoose.Schema({
   position: Number,
   deleted: Boolean
 })
-const Product = mongoose.model("Product", productSchema,"products");
+const Product = mongoose.model("Product", productSchema, "product");
 
 module.exports = Product;

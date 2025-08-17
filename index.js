@@ -2,7 +2,9 @@ const express = require("express");
 require("dotenv").config();
 const port = process.env.PORT;
 const database = require("./config/database");
-const router = require("./routes/client/index_route");
+const router_admin = require("./routes/admin/index_route");
+const router_client = require("./routes/client/index_route");
+const system_config = require("./config/system");
 const app = express();
 database.connect();
 
@@ -11,7 +13,10 @@ app.set("view engine", "pug");
 app.set("views", "./views");
 app.use(express.static("public"));
 
-router(app);
+app.locals.prefixAdmin = system_config.prefixAdmin;
+
+router_admin(app);
+router_client(app);
 // app.get("/", (req, res) => {
 //   res.render("client/pages/home/index.pug")
 // });

@@ -1,0 +1,32 @@
+/* Header */
+.header {
+    background: #202020;      /* Màu nền xám đen */
+    padding: 10px 0;          /* Khoảng cách trên-dưới 10px, trái-phải 0 */
+    position: sticky;         /* Header dính khi cuộn trang */
+    top: 0;                   /* Dính ở mép trên */
+    z-index: 999;             /* Luôn nằm trên các phần tử khác */
+}
+
+.header .inner-logo a {
+    font-size: 24px;          /* Kích thước chữ 24px */
+    font-weight: 700;         /* Độ đậm chữ (700 = bold) */
+    color: #fff;              /* Màu chữ trắng */
+}
+/* End Header */
+
+.body .sider {
+    width: 150px;                  /* Chiều rộng cố định 150px */
+    background: #323232;           /* Màu nền xám đậm */
+    color: #fff;                   /* Màu chữ trắng */
+    height: calc(100vh - 56px);    /* Chiều cao bằng chiều cao màn hình trừ 56px (header) */
+    position: fixed;               /* Cố định khi cuộn trang */
+    top: 56px;                     /* Đặt ngay bên dưới header */
+    left: 0;                       /* Dính vào cạnh trái */
+}
+
+.body .main {
+    margin: 15px;                  /* Khoảng cách ngoài 15px */
+    position: relative;            /* Định vị tương đối */
+    left: 150px;                    /* Đẩy nội dung sang phải để không bị đè lên menu */
+    width: calc(100% - 180px);      /* Chiều rộng toàn màn hình trừ menu (150px) và margin (30px) */
+}
