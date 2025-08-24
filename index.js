@@ -5,13 +5,17 @@ const database = require("./config/database");
 const router_admin = require("./routes/admin/index_route");
 const router_client = require("./routes/client/index_route");
 const system_config = require("./config/system");
+const methodOverride = require("method-override");
+
 const app = express();
+app.use(methodOverride("_method"));
 database.connect();
 
 
 app.set("view engine", "pug");
 app.set("views", "./views");
 app.use(express.static("public"));
+
 
 app.locals.prefixAdmin = system_config.prefixAdmin;
 
