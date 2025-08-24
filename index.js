@@ -5,10 +5,12 @@ const database = require("./config/database");
 const router_admin = require("./routes/admin/index_route");
 const router_client = require("./routes/client/index_route");
 const system_config = require("./config/system");
+var bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 
 const app = express();
 app.use(methodOverride("_method"));
+app.use(bodyParser.urlencoded({ extended: false }));
 database.connect();
 
 

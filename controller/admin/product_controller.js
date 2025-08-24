@@ -39,3 +39,22 @@ module.exports.changeStatus = async (req, res) => {
     const referer = req.get('referer')
     res.redirect(referer);
 };
+
+module.exports.changeMulti = async (req, res) => {
+    console.log(req.body);
+    const ids = req.body.ids.split(",");
+    const status = req.body.type;
+    
+    switch(status) {
+        case "active":
+            await Product.updateMany({_id: {$in: ids} }, {$set: {status: "active"}})
+            break;
+        case "inactive":
+            await Product.updateMany({_id: {$in: ids} }, {$set: {status: "inactive"}})
+            break;
+        default:
+            break;
+    }
+    const referer = req.get('referer')
+    res.redirect(referer);
+}
