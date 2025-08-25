@@ -60,7 +60,14 @@ module.exports.changeMulti = async (req, res) => {
 }
 module.exports.delete = async (req, res) => {
     const id = req.params.id;
-    await Product.updateOne({ _id: id },{ deleted: true });
+    await Product.updateOne(
+        { _id: id },
+        { 
+        deleted: true,
+        deletedAt: new Date()
+        }
+        
+    );
     const referer = req.get('referer')
     res.redirect(referer);
 }
