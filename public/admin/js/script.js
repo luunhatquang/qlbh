@@ -51,7 +51,7 @@ if (Button_pagination.length > 0) {
 
 const checkboxMulti = document.querySelector("[checkbox-multi]");
 if (checkboxMulti) {
-    const inputCheckAll = checkboxMulti.querySelector("input[name='checkall");
+    const inputCheckAll = checkboxMulti.querySelector("input[name='checkall']");
     const inputsId = checkboxMulti.querySelectorAll("input[name='id']");
     inputCheckAll.addEventListener("change", (e) => {
         if(inputCheckAll.checked) {

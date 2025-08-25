@@ -58,3 +58,9 @@ module.exports.changeMulti = async (req, res) => {
     const referer = req.get('referer')
     res.redirect(referer);
 }
+module.exports.delete = async (req, res) => {
+    const id = req.params.id;
+    await Product.deleteOne({ _id: id });
+    const referer = req.get('referer')
+    res.redirect(referer);
+}
