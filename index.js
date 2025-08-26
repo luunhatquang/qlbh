@@ -6,7 +6,11 @@ const router_admin = require("./routes/admin/index_route");
 const router_client = require("./routes/client/index_route");
 const system_config = require("./config/system");
 var bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const methodOverride = require("method-override");
+const flash = require("express-flash");
+
 
 const app = express();
 app.use(methodOverride("_method"));
@@ -17,6 +21,10 @@ database.connect();
 app.set("view engine", "pug");
 app.set("views", "./views");
 app.use(express.static("public"));
+
+app.use(cookieParser("jahsjah"));
+app.use(session({ cookie: { maxAge: 60000 } }))
+app.use(flash());
 
 
 app.locals.prefixAdmin = system_config.prefixAdmin;
