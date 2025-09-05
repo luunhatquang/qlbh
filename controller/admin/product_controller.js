@@ -2,6 +2,7 @@ const Product = require("../../model/products_model");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
+const productValidates = require("../../validates/admin/product_validates");
 
 module.exports.index = async (req, res) => {
     const filterStatus = filterStatusHelper(req.query);
@@ -94,6 +95,7 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+    productValidates.createPost(req, res);
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);

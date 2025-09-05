@@ -1,6 +1,12 @@
-mixin alert-status(time) 
+mixin alert-suc(time) 
     if messages && messages.success
         .alert.alert-success(
             data-time=time
             show-alert
         ) #{messages.success} <span close-alert>x</span>
+mixin alert-err(time)
+    if messages && messages.error
+        .alert.alert-danger(
+            data-time=time
+            show-alert
+        ) #{messages.error} <span close-alert>x</span>

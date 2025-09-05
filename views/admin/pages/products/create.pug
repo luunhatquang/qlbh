@@ -1,9 +1,11 @@
 extends ../../layout/default.pug
 include ../../mixins/alert-status.pug
 
+
 block main
   h1(class="mb-4") Thêm mới sản phẩm
-  +alert-status("5000")
+  +alert-suc("5000")
+  +alert-err("5000")
   form(
     action=`${prefixAdmin}/products/create`
     id="form-create-product"
