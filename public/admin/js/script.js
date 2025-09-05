@@ -126,5 +126,17 @@ if(showAlert) {
     close_Alert.addEventListener("click", (e) => {
         showAlert.classList.add("alert-hidden");
     });
+}
 
+const uploadImage = document.querySelector("[upload-image]");
+if(uploadImage) {
+    const inputFile = uploadImage.querySelector("[upload-image-input]");
+    const previewImage = uploadImage.querySelector("[upload-image-preview]");
+    inputFile.addEventListener("change", (e) => {
+        const file = e.target.files[0];  
+        if(file) {
+            previewImage.src = URL.createObjectURL(file);
+        
+        }
+    }) 
 }
