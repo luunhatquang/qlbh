@@ -18,6 +18,14 @@ product.post(
     controller.createPost
 );
 
+product.get("/edit/:id", controller.edit);
+product.patch("/edit/:id",
+    upload.single("thumbnail"),
+    validatec.createPost,
+    controller.editPatch
+)
+;
+
 
 
 module.exports = product;

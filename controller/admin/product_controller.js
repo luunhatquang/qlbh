@@ -3,6 +3,7 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const productValidates = require("../../validates/admin/product_validates");
+const systemconfig = require("../../config/system");
 
 module.exports.index = async (req, res) => {
     const filterStatus = filterStatusHelper(req.query);
@@ -94,13 +95,11 @@ module.exports.create = (req, res) => {
     });
 }
 
-module.exports.createPost = async (req, res) => {
-    productValidates.createPost(req, res);
+module.exports.createPost = async (req, res,next) => {
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
     if(req.body.position == '') {
-
         req.body.position = await Product.countDocuments()+ 1;
     }
     if (req.file) {
@@ -109,6 +108,42 @@ module.exports.createPost = async (req, res) => {
     const product = new Product(req.body);
     await product.save();
     req.flash('success','Thêm sản phẩm thành công');
+    const referer = req.get('referer')
+    res.redirect(referer);
+}
+
+module.exports.edit = async (req, res) => {
+    try {
+        const find = {
+        _id: req.params.id,
+        deleted: false
+        }
+        const product = await Product.findOne(find);
+        res.render("admin/pages/products/edit", {
+            pageTitle: "Chỉnh sửa sản phẩm",
+            product: product
+        });
+    }
+    catch(err) {
+        res.redirect(`${systemconfig.prefixAdmin}/products`);
+    }
+}
+module.exports.editPatch = async (req, res,next) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    req.body.position = parseInt(req.body.position);
+    if (req.file) {
+        req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
+    try {
+        await Product.updateOne({_id: req.params.id}, req.body);
+    }
+    catch(err) {
+        req.flash('error','Cập nhật sản phẩm thất bại');
+        res.redirect(`${systemconfig.prefixAdmin}/products`);
+    }
+    req.flash('success', "Cập nhật sản phẩm thành công'");
     const referer = req.get('referer')
     res.redirect(referer);
 }
