@@ -16,3 +16,22 @@ module.exports.product = async (req, res) => {
         products: newProducts
     });
 }
+
+module.exports.detail = async (req, res) => {
+    try {
+        const slug = req.params.slug;
+        const find =  {
+            slug: slug,
+            deleted: false,
+            status: "active"
+        }
+        const product = await Product.findOne(find);
+        res.render("client/pages/products/detail.pug", {
+            pageTitle: product.title,
+            product
+        })
+    }
+    catch (error) {
+        res.redirect("/products");
+    }
+}
