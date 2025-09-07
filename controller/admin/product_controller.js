@@ -147,3 +147,20 @@ module.exports.editPatch = async (req, res,next) => {
     const referer = req.get('referer')
     res.redirect(referer);
 }
+
+module.exports.detail = async (req, res) => {
+    try {
+        const find = {
+        _id: req.params.id,
+        deleted: false
+        }
+        const product = await Product.findOne(find);
+        res.render("admin/pages/products/detail", {
+            pageTitle: product.title,
+            product: product
+        });
+    }
+    catch(err) {
+        res.redirect(`${systemconfig.prefixAdmin}/products`);
+    }
+}

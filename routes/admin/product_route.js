@@ -23,8 +23,9 @@ product.patch("/edit/:id",
     upload.single("thumbnail"),
     validatec.createPost,
     controller.editPatch
-)
-;
+);
+
+product.get("/detail/:id", controller.detail);
 
 
 

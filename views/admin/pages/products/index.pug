@@ -85,7 +85,11 @@ block main
                                     class="badge badge-danger"
                                     ) Dừng hoạt động
                                 
-                            td
+                            td 
+                                a(
+                                    href=`${prefixAdmin}/products/detail/${product._id}`
+                                    class="btn btn-info btn-sm mr-1"
+                                ) Chi tiết
                                 a(
                                     href=`${prefixAdmin}/products/edit/${product._id}`
                                     class="btn btn-warning btn-sm"
