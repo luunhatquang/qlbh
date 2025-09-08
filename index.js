@@ -19,8 +19,8 @@ database.connect();
 
 
 app.set("view engine", "pug");
-app.set("views", "./views");
-app.use(express.static("public"));
+app.set("views", `${__dirname}/views`);
+app.use(express.static(`${__dirname}/public`));
 
 app.use(cookieParser("jahsjah"));
 app.use(session({ cookie: { maxAge: 60000 } }))
