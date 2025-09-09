@@ -102,9 +102,6 @@ module.exports.createPost = async (req, res,next) => {
     if(req.body.position == '') {
         req.body.position = await Product.countDocuments()+ 1;
     }
-    if (req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
     const product = new Product(req.body);
     await product.save();
     req.flash('success','Thêm sản phẩm thành công');
