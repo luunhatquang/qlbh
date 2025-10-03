@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const port = process.env.PORT;
+const path = require("path");
 const database = require("./config/database");
 const router_admin = require("./routes/admin/index_route");
 const router_client = require("./routes/client/index_route");
@@ -26,6 +27,7 @@ app.use(express.static(`${__dirname}/public`));
 app.use(cookieParser("jahsjah"));
 app.use(session({ cookie: { maxAge: 60000 } }))
 app.use(flash());
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 
 app.locals.prefixAdmin = system_config.prefixAdmin;
