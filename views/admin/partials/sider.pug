@@ -1,6 +1,17 @@
-// sider.pug
 .sider
-   .inner-menu
-     ul
-        li: a(href=`${prefixAdmin}/dashboard`) Dashboard
-        li: a(href=`${prefixAdmin}/products`) Products
+  .logo
+    a(href=`${prefixAdmin}/dashboard`) 
+      img(src="/images/logo.png" alt="Admin Logo")
+      span Admin Panel
+  .inner-menu
+    ul
+      li.active: a(href=`${prefixAdmin}/dashboard`)
+        i(class="fa-solid fa-gauge") 
+        | Dashboard
+      li: a(href=`${prefixAdmin}/products`)
+        i(class="fa-solid fa-box") 
+        | Products
+      li: a(href=`${prefixAdmin}/product-categories`)
+        i(class="fa-solid fa-list") 
+        | Categories
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
