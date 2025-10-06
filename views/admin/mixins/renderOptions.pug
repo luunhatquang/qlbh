@@ -1,0 +1,5 @@
+mixin renderOptions(records, prefix)
+    each record in records
+        option(value=record._id)= `${prefix}${record.title}`
+        if record.children
+            +renderOptions(record.children, `${prefix}-- `)
