@@ -14,8 +14,14 @@ product.post(
     "/create",
     upload.single("thumbnail"),
     uploadCloud.uploadImage,
-    // validate.createPost,
+     validate.createPost,
     controller.createPost
 );
-
+product.get("/edit/:id", controller.edit);
+product.patch(
+    "/edit/:id",
+    upload.single("thumbnail"),
+    uploadCloud.uploadImage,
+    validate.createPost,
+    controller.editPatch,);
 module.exports = product;

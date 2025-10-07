@@ -4,11 +4,14 @@ const paginationHelper = require("../../helpers/pagination");
 const productValidates = require("../../validates/admin/product_validates");
 const systemconfig = require("../../config/system");
 const ProductCategory = require("../../model/product_category_model");
+const createTree = require("../../helpers/createTree");
 
 module.exports.index = async (req, res) => {
     const filterStatus = filterStatusHelper(req.query);
 
-    let find = { deleted: false };
+    let find = {
+        deleted: false
+    };
     if (req.query.status) {
         find.status = req.query.status;
     }
@@ -22,35 +25,16 @@ module.exports.index = async (req, res) => {
     }, req.query, countProduct);
 
     let sort = {};
-    if(req.query.sortKey && req.query.sortValue) {
+    if (req.query.sortKey && req.query.sortValue) {
         sort[req.query.sortKey] = req.query.sortValue;
-    }
-    else {
+    } else {
         sort.position = "desc"
     }
-
-    function createTree(arr, parentId) {
-        const tree = [];
-        arr.forEach((item) => {
-            if (String(item.parent_id || "") === String(parentId || "")) {
-                const newItem = item.toObject ? item.toObject() : item;
-                const children = createTree(arr, item._id);
-                if (children.length > 0) {
-                    newItem.children = children;
-                }
-                tree.push(newItem);
-            }
-        });
-        return tree;
-    }
-
-    
-
     const records = await ProductCategory.find(find)
         .sort(sort)
         .limit(objectPagination.limitItem)
         .skip(objectPagination.skip)
-    const recordsTree = createTree(records, "");
+    const recordsTree = createTree(records);
     res.render("admin/pages/category/index", {
         pageTitle: "Danh mục sản phẩm",
         records: recordsTree,
@@ -61,45 +45,72 @@ module.exports.index = async (req, res) => {
 };
 
 module.exports.create = async (req, res) => {
-    const records = await ProductCategory.find({ deleted: false }).sort({ position: 1 });
-
-    function createTree(arr, parentId) {
-        const tree = [];
-        arr.forEach((item) => {
-            if (String(item.parent_id || "") === String(parentId || "")) {
-                const newItem = item.toObject ? item.toObject() : item;
-                const children = createTree(arr, item._id);
-                if (children.length > 0) {
-                    newItem.children = children;
-                }
-                tree.push(newItem);
-            }
-        });
-        return tree;
-    }
-
-    const recordsTree = createTree(records, "");
+    const records = await ProductCategory.find({
+        deleted: false
+    }).sort({
+        position: 1
+    });
+    const recordsTree = createTree(records);
 
     res.render("admin/pages/category/create", {
         pageTitle: "Thêm mới sản phẩm",
         records: recordsTree, // 
     });
 };
-module.exports.createPost = async (req, res,next) => {
-    if(req.body.position == "") {
+module.exports.createPost = async (req, res, next) => {
+    if (req.body.position == "") {
         const countRecords = await ProductCategory.countDocuments();
         req.body.position = countRecords + 1;
     } else {
         req.body.position = parseInt(req.body.position);
     }
-    let data = { ...req.body };
+    let data = {
+        ...req.body
+    };
     if (Array.isArray(data.parent_id)) {
-    data.parent_id = data.parent_id.find(id => id && id.trim() !== '') || '';
+        data.parent_id = data.parent_id.find(id => id && id.trim() !== '') || '';
     }
     data.parent_id = String(data.parent_id || '');
     const record = new ProductCategory(data);
     await record.save();
     const referer = req.get('referer')
     res.redirect(referer);
-    
+
+}
+
+module.exports.edit = async (req, res) => {
+    const id = req.params.id;
+    const data = await ProductCategory.findOne({
+        _id: id,
+        deleted: false
+    });
+    const records = await ProductCategory.find({
+        deleted: false
+    }).sort({
+        position: 1
+    });
+    const recordsTree = createTree(records);
+    res.render("admin/pages/category/edit", {
+        pageTitle: "Chỉnh sửa sản phẩm",
+        data: data,
+        records: recordsTree
+    });
+}
+
+module.exports.editPatch = async (req, res,next) => {
+    req.body.parent_id = String(req.body.parent_id || '');
+    req.body.position = parseInt(req.body.position);
+    if (req.file) {
+        req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
+    try {
+        await ProductCategory.updateOne({_id: req.params.id}, req.body);
+    }
+    catch(err) {
+        req.flash('error','Cập nhật sản phẩm thất bại');
+        res.redirect(`${systemconfig.prefixAdmin}/product-categories`);
+    }
+    req.flash('success', "Cập nhật sản phẩm thành công'");
+    const referer = req.get('referer')
+    res.redirect(referer);
 }
