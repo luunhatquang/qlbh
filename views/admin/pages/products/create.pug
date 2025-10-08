@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/alert-status.pug
+include ../../mixins/renderOptions.pug
 
 
 block main
@@ -22,9 +23,15 @@ block main
         name="title"
         required
       )
+    .form-group
+      label(for="product-category-id") Danh mục 
+      select.form-control(name="category" id="product-category-id")
+        option(value="") -- Chọn danh mục --
+        if category && category.length
+          +renderOptions(category, "")
 
     // Mô tả
-    div(class="form-group")
+    .form-group
       label(for="desc") Mô tả
       textarea(
         class="form-control"
@@ -34,7 +41,7 @@ block main
       )
 
     // Giá
-    div(class="form-group")
+    .form-group
       label(for="price") Giá
       input(
         type="number"
@@ -46,7 +53,7 @@ block main
       )
 
     // Giảm giá
-    div(class="form-group")
+    .form-group
       label(for="discount") % Giảm giá
       input(
         type="number"
@@ -58,7 +65,7 @@ block main
       )
 
     // Số lượng
-    div(class="form-group")
+    .form-group
       label(for="stock") Số lượng
       input(
         type="number"
@@ -89,7 +96,7 @@ block main
       )
 
     // Vị trí
-    div(class="form-group")
+    .form-group
       label(for="position") Vị trí
       input(
         type="number"
@@ -123,7 +130,7 @@ block main
       label(for="statusInactive" class="form-check-label") Dừng hoạt động
 
     // Submit
-    div(class="form-group")
+    .form-group
       button(
         type="submit"
         class="btn btn-primary"
